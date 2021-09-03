@@ -1,5 +1,7 @@
 *.pyc
 .vscode
+.sqlite3
+
 node_modules
 post_images
 

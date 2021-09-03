@@ -11,7 +11,7 @@ const DropdownMultipleSelection = () => (
   <Dropdown placeholder='Topics' fluid multiple selection options={options} />
 )
 
-export default function Header(props) {
+export default function TagFilter(props) {
   return (
     <Segment style={{
       height: '70px', borderBottom: '1px solid #e7e8ec', backgroundColor: 'white',

@@ -5,16 +5,15 @@ import Header from './Components/Header';
 import PostList from './Pages/PostList';
 import PostDetails from './Pages/PostDetails';
 import { Container } from 'semantic-ui-react';
+import Admin from './Pages/Admin';
 
 
 function App() {
   return (
     <Router>
-      <div style={{backgroundColor: '#edeef0', height: '100%'}}>
-        <Header/>
-        <Route exact path="/" component={PostList}/>
-        <Route path="/post/:id" component={PostDetails}/>
-      </div>
+      <Route exact path="/" component={PostList}/>
+      <Route path="/post/:id" component={PostDetails}/>
+      <Route path="/admin/" component={Admin}/>
     </Router>
   );
 }

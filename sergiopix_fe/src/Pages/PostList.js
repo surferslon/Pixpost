@@ -3,11 +3,13 @@ import { API_BASE_URL, MEDIA_BASE_URL } from '../Config';
 import Loading from '../Components/Loading';
 import { Header, Grid, Pagination, Container, Segment, Image, Divider, Table } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
+import TagFilter from '../Components/Header';
 
 
 function ImageViewer() {
 
 }
+
 function PostItem(props) {
     const imageClick = (event) => console.log(event);
     return (
@@ -48,7 +50,7 @@ export default function PostList() {
   const [Posts, setPosts] = useState([])
 
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/post_list/`)
+    axios.get(`${API_BASE_URL}/posts/list/`)
       .then(result => {
         setPosts(result.data);
         setLoading(false);
@@ -67,6 +69,7 @@ export default function PostList() {
         backgroundColor: 'white', border: '1px solid #e7e8ec'
         }}
       >
+        <TagFilter/>
         {
           Posts.map((p) =>
             <PostItem post={p} />

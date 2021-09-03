@@ -10,10 +10,11 @@ class Post(models.Model):
     shooted_at = models.DateField()
     title = models.CharField(max_length=128)
     place = models.CharField(max_length=512)
-    content = models.TextField()
+    description = models.TextField()
     topic = models.ForeignKey(Topic, null=True, on_delete=models.SET_NULL)
 
 
 class Image(models.Model):
-    post = models.ForeignKey(Post, null=True, on_delete=models.SET_NULL)
+    post = models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='post_images/', default='no_image.jpg')
+    comment = models.CharField(max_length=1024)

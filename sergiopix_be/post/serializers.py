@@ -8,7 +8,14 @@ class PostListSerializer(ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'topic', 'content', 'shooted_at', 'images')
+        fields = ('id', 'title', 'topic', 'description', 'shooted_at', 'images')
 
     def get_images(self, instance):
         return instance.image_set.all().values_list('image', flat=True)
+
+
+class PostCreateSerializer(ModelSerializer):
+
+    class Meta:
+        fields = ('id', 'title', 'topic', 'description', 'shooted_at')
+        model = Post

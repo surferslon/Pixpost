@@ -1,9 +1,9 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = 'o#%^88dk=_!t7f*11u@1j1^e002pq6ck5(h#0kqzj5p#xjprcn'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = os.getenv('django_key', '')
+DEBUG = os.getenv('debug', False)
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '2.57.187.54/', ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -79,8 +79,8 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATIC_URL = '/static/'
-STATIC_ROOT = 'static_root/'
+STATIC_URL = '/api/static/'
+STATIC_ROOT = '/var/www/sergiopix_data/static'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/api/media/'
+MEDIA_ROOT = '/var/www/sergiopix_data/media'
