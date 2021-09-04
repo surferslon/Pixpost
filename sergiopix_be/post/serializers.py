@@ -17,5 +17,16 @@ class PostListSerializer(ModelSerializer):
 class PostCreateSerializer(ModelSerializer):
 
     class Meta:
-        fields = ('id', 'title', 'topic', 'description', 'shooted_at')
         model = Post
+        fields = ('id', 'title', 'description', 'shooted_at')
+
+
+class PostRetrieveSerializer(ModelSerializer):
+    images = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'description', 'shooted_at', 'images')
+
+    def get_images(self, instance):
+        return instance.image_set.all().values('image', 'comment')

@@ -4,6 +4,7 @@ import Loading from '../Components/Loading';
 import { Header, Grid, Pagination, Container, Segment, Image, Divider, Table } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
 import TagFilter from '../Components/Header';
+import { useHistory } from 'react-router-dom';
 
 
 function ImageViewer() {
@@ -11,13 +12,17 @@ function ImageViewer() {
 }
 
 function PostItem(props) {
-    const imageClick = (event) => console.log(event);
+    const history = useHistory();
+    const handleClick = () => {
+      history.push(`/post/${props.post.id}`);
+    }
+
     return (
       <Grid id={props.post.id}
         style={{ padding: '45px', paddingTop: '15px', paddingBottom: '15px', borderBottom: '1px solid #e7e8ec'}}
       >
         <Grid.Row>
-          <Header as='h3' floated='center'>
+          <Header as='h3' floated='center' onClick={handleClick}>
             {props.post.title}
           </Header>
         </Grid.Row>

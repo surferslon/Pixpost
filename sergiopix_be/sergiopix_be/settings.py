@@ -3,7 +3,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('django_key', '')
 DEBUG = os.getenv('debug', False)
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '2.57.187.54/', ]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '2.57.187.54', ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,7 +52,7 @@ WSGI_APPLICATION = 'sergiopix_be.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': '/var/www/sergiopix_data/db.sqlite3',
     }
 }
 

@@ -1,5 +1,5 @@
-from rest_framework.generics import ListAPIView, CreateAPIView
-from post.serializers import PostListSerializer, PostCreateSerializer
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from post.serializers import PostListSerializer, PostCreateSerializer, PostRetrieveSerializer
 from post.models import Post, Image
 
 
@@ -25,3 +25,9 @@ class PostCreateView(CreateAPIView):
                 )
             Image.objects.bulk_create(post_images)
         return response
+
+
+class PostRetrieveView(RetrieveAPIView):
+    serializer_class = PostRetrieveSerializer
+    queryset = Post.objects.all()
+    lookup_field = 'pk'

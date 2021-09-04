@@ -1,6 +1,7 @@
 *.pyc
 .vscode
-.sqlite3
+*.sqlite3
+db.sqlite3
 
 node_modules
 post_images
