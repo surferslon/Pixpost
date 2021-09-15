@@ -1,15 +1,11 @@
 import axios from 'axios';
 import { API_BASE_URL, MEDIA_BASE_URL } from '../Config';
 import Loading from '../Components/Loading';
-import { Header, Grid, Pagination, Container, Segment, Image, Divider, Table } from 'semantic-ui-react';
+import { Header, Grid, Pagination, Segment, Image, } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
 import TagFilter from '../Components/Header';
 import { useHistory } from 'react-router-dom';
 
-
-function ImageViewer() {
-
-}
 
 function PostItem(props) {
     const history = useHistory();
@@ -22,7 +18,7 @@ function PostItem(props) {
         style={{ padding: '45px', paddingTop: '15px', paddingBottom: '15px', borderBottom: '1px solid #e7e8ec'}}
       >
         <Grid.Row>
-          <Header as='h3' floated='center' onClick={handleClick}>
+          <Header as='h3' floated='center' onClick={handleClick} style={{cursor: 'pointer'}}>
             {props.post.title}
           </Header>
         </Grid.Row>
@@ -37,7 +33,7 @@ function PostItem(props) {
               props.post.images.map((img, idx) =>
                 <Image
                   id={props.post.title + idx}
-                  style={{width: '200px', margin: '4px', display: 'inline'}}
+                  style={{height: '200px', margin: '4px', display: 'inline', cursor: 'pointer'}}
                   src={`${MEDIA_BASE_URL}/${img}`}
                   onClick={(e) => window.open(e.target.src)}
                 />
@@ -47,20 +43,14 @@ function PostItem(props) {
         </Grid.Row>
       </Grid>
     )
-
 }
 
-export default function PostList() {
-  const [loading, setLoading] = useState(true)
-  const [Posts, setPosts] = useState([])
+const PostListSegment = function(props) {
+  const { posts, loading, setLoading } = props;
 
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/posts/list/`)
-      .then(result => {
-        setPosts(result.data);
-        setLoading(false);
-      })
-  }, []);
+    setLoading(false);
+  }, [posts, setLoading]);
 
   if (loading) {
     return (
@@ -68,22 +58,54 @@ export default function PostList() {
     );
   } else {
     return (
-      <div style={{
-        marginLeft: '250px', marginRight: '250px', marginTop: '10px', marginBottom: '10px',
-        paddingLeft: '25px', paddingRight: '25px', paddingTop: '10px',
-        backgroundColor: 'white', border: '1px solid #e7e8ec'
-        }}
-      >
-        <TagFilter/>
-        {
-          Posts.map((p) =>
-            <PostItem post={p} />
-          )
-        }
+      <div>
+        { posts.map((p) => <PostItem post={p} />) }
+      </div>
+    )
+  }
+}
+
+function fetchData(page) {
+  return axios.get(`${API_BASE_URL}/posts/list/?page=${page}`)
+}
+
+export default function PostList() {
+  const [Posts, setPosts] = useState([]);
+  const [PageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData(currentPage).then((result) => {
+      setPosts(result.data.results);
+      setPageCount(result.data.total_pages)
+    });
+  }, []);
+
+  function handlePageChange(event, data) {
+    setLoading(true);
+    setCurrentPage(data.activePage);
+    fetchData(data.activePage).then((result) => {
+      setPosts(result.data.results);
+    });
+  };
+
+  return (
+    <div style={{ margin: '10px' }}>
+      <TagFilter />
+      <div style={{ marginTop: '10px', marginBottom: '10px', backgroundColor: 'white', border: '1px solid #e7e8ec' }} >
+        <PostListSegment posts={Posts} loading={loading} setLoading={setLoading} />
         <Segment textAlign='center' style={{border: 'None'}}>
-          <Pagination defaultActivePage={1} firstItem={null} lastItem={null} pointing secondary totalPages={33} />)
+          <Pagination defaultActivePage={currentPage}
+            firstItem={null}
+            lastItem={null}
+            pointing secondary
+            siblingRange={4}
+            totalPages={PageCount}
+            onPageChange={handlePageChange}
+          />
         </Segment>
       </div>
-    );
-  }
+  </div>
+  )
 }
